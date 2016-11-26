@@ -62,7 +62,7 @@ namespace Xeno
             #endregion
 
             #region debuf
-            commServ.CreateCommand("debug")
+            /*commServ.CreateCommand("debug")
                 .Description("Sets the bots logging mode to debug (Only stays for session.)")
                 .Parameter("bool", ParameterType.Unparsed)
                 .Do(async (e) =>
@@ -84,7 +84,7 @@ namespace Xeno
                         var permErrorMessage = $"{e.User.Mention} you must have **Administrator** permissions to run that command.";
                         await e.Channel.SendMessage(permErrorMessage);
                     }
-                });
+                });*/
             #endregion
         }
     }
