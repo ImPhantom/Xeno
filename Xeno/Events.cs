@@ -1,0 +1,63 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Xeno
+{
+    class Events
+    {
+        public static void initEvents()
+        {
+            var client = Program.client;
+
+            client.UserJoined += async (s, e) =>
+            {
+                var logChannel = e.Server.FindChannels("serverlog").FirstOrDefault();
+                await logChannel.SendMessage($":white_check_mark: **{e.User.Name}** has joined the XenoRP discord.");
+                Console.WriteLine(Strings.infoEvent + $"{e.User.Name} has joined {e.Server.Name}.");
+            };
+
+            client.UserLeft += async (s, e) =>
+            {
+                var logChannel = e.Server.FindChannels("serverlog").FirstOrDefault();
+                await logChannel.SendMessage($":x: **{e.User.Name}** has left the XenoRP discord.");
+                Console.WriteLine(Strings.infoEvent + $"{e.User.Name} has left {e.Server.Name}.");
+            };
+
+            client.UserBanned += async (s, e) =>
+            {
+                var logChannel = e.Server.FindChannels("serverlog").FirstOrDefault();
+                await logChannel.SendMessage($":x: **{e.User.Name}** has been banned.");
+                Console.WriteLine(Strings.infoEvent + $"{e.User.Name} has been banned from {e.Server.Name}");
+            };
+
+            client.UserUnbanned += async (s, e) =>
+            {
+                var logChannel = e.Server.FindChannels("serverlog").FirstOrDefault();
+                await logChannel.SendMessage($":x: **{e.User.Name}** has been unbanned.");
+                Console.WriteLine(Strings.infoEvent + $"{e.User.Name} has been Unbanned from {e.Server.Name}");
+            };
+
+            client.MessageUpdated += async (s, e) =>
+            {
+                var before = e.Before.Text;
+                var after = e.After.Text;
+                var dif = "**Before:** " + before + "\n **After:** " + after;
+                var logChannel = e.Server.FindChannels("serverlog").FirstOrDefault();
+                await logChannel.SendMessage($":grey_exclamation: **{e.User.Name}** edited their message: \n " + dif);
+            };
+
+            /*client.UserUpdated += async (s, e) => {
+
+                var logChannel = e.Server.FindChannels("xenos").FirstOrDefault();
+                if (e.After.VoiceChannel == null) return;
+
+                if (e.Before.VoiceChannel == e.After.VoiceChannel) return;
+
+                await logChannel.SendMessage($":grey_exclamation: **{e.After.Name}** changed to the '*{e.After.VoiceChannel}*' channel.");
+            };*/
+        }
+    }
+}
