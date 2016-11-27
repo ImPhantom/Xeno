@@ -47,7 +47,7 @@ namespace Xeno
                         messagesToDelete = await e.Channel.DownloadMessages(amountToDelete + 1);
                         await e.Channel.DeleteMessages(messagesToDelete);
                         messagesToDelete = null;
-                        var cslAlert = $"[Xenos] {e.User.Name} has cleaned up chat.";
+                        var cslAlert = "[" + Strings.appName + $"] {e.User.Name} has cleaned up chat.";
                         Console.WriteLine(cslAlert);
                     }
                     else

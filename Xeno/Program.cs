@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using System;
+using System.Configuration;
 
 namespace Xeno
 {
@@ -14,7 +15,6 @@ namespace Xeno
         public static DiscordClient client;
         public static bool debug = false;
 
-        private string token = "MjQzMjY0MDk3MDg3NTIwNzY4.CxZG6A.Z74vR-bLKrOC-gSmCFJAiH7zgbs";
         private string header = @"             
                                             __   __                
                                             \ \ / /                
@@ -28,46 +28,54 @@ namespace Xeno
         public void Start()
         {
             Console.WriteLine(header);
-            Console.Title = "Xeno Discord Bot";
+            Console.Title = Strings.appName;
 
-            client = new DiscordClient(x =>
+            if (Strings.botToken == "bot token")
             {
-                x.AppName = "Xenos";
-                x.AppUrl = "http://xenoserv.cf/";
-                if(debug == false)
+                Console.WriteLine(Strings.tokenError);
+                Console.ReadLine();
+            } else
+            {
+                client = new DiscordClient(x =>
                 {
-                    x.LogLevel = LogSeverity.Info;
-                } else
+                    x.AppName = Strings.appName;
+                    x.AppUrl = Strings.appUrl;
+                    if (debug == false)
+                    {
+                        x.LogLevel = LogSeverity.Info;
+                    }
+                    else
+                    {
+                        x.LogLevel = LogSeverity.Debug;
+                    }
+                    x.LogHandler = Log;
+                });
+
+                client.UsingCommands(x =>
                 {
-                    x.LogLevel = LogSeverity.Debug;
-                }
-                x.LogHandler = Log;
-            });
+                    x.PrefixChar = Strings.prefixChar;
+                    x.AllowMentionPrefix = false;
+                    x.HelpMode = HelpMode.Public;
+                });
 
-            client.UsingCommands(x =>
-            {
-                x.PrefixChar = '~';
-                x.AllowMentionPrefix = false;
-                x.HelpMode = HelpMode.Public;
-            });
 
-            
-            Events.initEvents(); // Events
-            Console.WriteLine(Strings.infoPrefix + "Events module initialized.");
+                Events.initEvents(); // Events
+                Console.WriteLine(Strings.infoPrefix + "Events module initialized.");
 
-            Settings.initSettings(); // Settings
-            Console.WriteLine(Strings.infoPrefix + "Settings module initialized.");
-            Moderation.initModeration(); // Moderation
-            Console.WriteLine(Strings.infoPrefix + "Moderation module initialized.");
-            Chat.initChat(); // Chat
-            Console.WriteLine(Strings.infoPrefix + "Chat module initialized.");
+                Settings.initSettings(); // Settings
+                Console.WriteLine(Strings.infoPrefix + "Settings module initialized.");
+                Moderation.initModeration(); // Moderation
+                Console.WriteLine(Strings.infoPrefix + "Moderation module initialized.");
+                Chat.initChat(); // Chat
+                Console.WriteLine(Strings.infoPrefix + "Chat module initialized.");
 
-            Console.WriteLine(Strings.infoPrefix + "Connecting...");
-            client.ExecuteAndWait(async () =>
-            {
-                await client.Connect(token, TokenType.Bot);
-                client.SetGame(Strings.status);
-            });
+                Console.WriteLine(Strings.infoPrefix + "Connecting...");
+                client.ExecuteAndWait(async () =>
+                {
+                    await client.Connect(Strings.botToken, TokenType.Bot);
+                    client.SetGame(Strings.startStatus);
+                });
+            }
         }
 
         public void Log(object sender, LogMessageEventArgs e)

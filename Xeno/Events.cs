@@ -13,28 +13,28 @@ namespace Xeno
             {
                 var logChannel = e.Server.FindChannels("serverlog").FirstOrDefault();
                 await logChannel.SendMessage($":white_check_mark: **{e.User.Name}** has joined the XenoRP discord.");
-                Console.WriteLine(Strings.infoEvent + $"{e.User.Name} has joined {e.Server.Name}.");
+                Console.WriteLine(Strings.infoEvent + $"({e.Server.Name}) {e.User.Name} has joined {e.Server.Name}.");
             };
 
             client.UserLeft += async (s, e) =>
             {
                 var logChannel = e.Server.FindChannels("serverlog").FirstOrDefault();
                 await logChannel.SendMessage($":x: **{e.User.Name}** has left the XenoRP discord.");
-                Console.WriteLine(Strings.infoEvent + $"{e.User.Name} has left {e.Server.Name}.");
+                Console.WriteLine(Strings.infoEvent + $"({e.Server.Name}) {e.User.Name} has left {e.Server.Name}.");
             };
 
             client.UserBanned += async (s, e) =>
             {
                 var logChannel = e.Server.FindChannels("serverlog").FirstOrDefault();
                 await logChannel.SendMessage($":x: **{e.User.Name}** has been banned.");
-                Console.WriteLine(Strings.infoEvent + $"{e.User.Name} has been banned from {e.Server.Name}");
+                Console.WriteLine(Strings.infoEvent + $"({e.Server.Name}) {e.User.Name} has been banned from {e.Server.Name}");
             };
 
             client.UserUnbanned += async (s, e) =>
             {
                 var logChannel = e.Server.FindChannels("serverlog").FirstOrDefault();
                 await logChannel.SendMessage($":x: **{e.User.Name}** has been unbanned.");
-                Console.WriteLine(Strings.infoEvent + $"{e.User.Name} has been Unbanned from {e.Server.Name}");
+                Console.WriteLine(Strings.infoEvent + $"({e.Server.Name}) {e.User.Name} has been Unbanned from {e.Server.Name}");
             };
 
             client.MessageUpdated += async (s, e) =>

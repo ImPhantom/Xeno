@@ -61,7 +61,7 @@ namespace Xeno
                 });
             #endregion
 
-            #region debuf
+            #region debug
             /*commServ.CreateCommand("debug")
                 .Description("Sets the bots logging mode to debug (Only stays for session.)")
                 .Parameter("bool", ParameterType.Unparsed)
