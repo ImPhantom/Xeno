@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using System.Linq;
 using System.Text;
 
@@ -37,6 +38,21 @@ namespace Xeno
 **Text Channels:** {e.Server.TextChannels.Count()} **Voice Channels:** {e.Server.VoiceChannels.Count()}
 **AFK Channel:** {e.Server.AFKChannel}
 **Icon:** {e.Server.IconUrl}");
+                    await e.Channel.SendMessage(stringBuilder.ToString());
+                });
+            #endregion
+
+            #region userinfo
+            commServ.CreateCommand("userinfo")
+                .Description("Gives info from user.")
+                .Do(async (e) =>
+                {
+                    var stringBuilder = new StringBuilder();
+                    stringBuilder.AppendLine($@"**Name:** {e.User.Name}
+**Nickname:** {e.User.Nickname}
+**ID:** {e.User.Id}
+**Joined On:** {e.User.JoinedAt}
+**Avatar:** {e.User.AvatarUrl}");
                     await e.Channel.SendMessage(stringBuilder.ToString());
                 });
             #endregion

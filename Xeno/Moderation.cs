@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using System;
+using System.Linq;
 using System.Threading;
 
 namespace Xeno
@@ -36,7 +37,7 @@ namespace Xeno
 
             #region cleanup
             commServ.CreateCommand("cleanup")
-                .Description("Cleans up past 10 messages in chat")
+                .Description("Cleans up messages in chat (~cleanup <int>)")
                 .Parameter("amt", ParameterType.Required)
                 .Do(async (e) =>
                 {

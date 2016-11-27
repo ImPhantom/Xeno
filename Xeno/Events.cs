@@ -43,7 +43,14 @@ namespace Xeno
                 var after = e.After.Text;
                 var dif = "**Before:** " + before + "\n **After:** " + after;
                 var logChannel = e.Server.FindChannels("serverlog").FirstOrDefault();
-                await logChannel.SendMessage($":grey_exclamation: **{e.User.Name}** edited their message: \n " + dif);
+                if (before.Length > 75)
+                {
+                    await logChannel.SendMessage($":grey_exclamation: **{ e.User.Name} **edited their message. (too long)");
+                }
+                else
+                {
+                    await logChannel.SendMessage($":grey_exclamation: **{e.User.Name}** edited their message: \n " + dif);
+                }
             };
 
             /*client.UserUpdated += async (s, e) => {
