@@ -13,14 +13,14 @@ namespace Xeno.Modules
             client.UserJoined += async (s, e) =>
             {
                 var logChannel = e.Server.FindChannels("serverlog").FirstOrDefault();
-                await logChannel.SendMessage($":white_check_mark: **{e.User.Name}** has joined the XenoRP discord.");
+                await logChannel.SendMessage($":white_check_mark: **{e.User.Name}** has joined the {e.Server.Name} discord.");
                 Console.WriteLine(Strings.infoEvent + $"({e.Server.Name}) {e.User.Name} has joined {e.Server.Name}.");
             };
 
             client.UserLeft += async (s, e) =>
             {
                 var logChannel = e.Server.FindChannels("serverlog").FirstOrDefault();
-                await logChannel.SendMessage($":x: **{e.User.Name}** has left the XenoRP discord.");
+                await logChannel.SendMessage($":x: **{e.User.Name}** has left the {e.Server.Name} discord.");
                 Console.WriteLine(Strings.infoEvent + $"({e.Server.Name}) {e.User.Name} has left {e.Server.Name}.");
             };
 
