@@ -2,8 +2,10 @@
 using Discord.Commands;
 using System;
 using System.Threading;
+using Xeno.Utilities;
 
-namespace Xeno
+
+namespace Xeno.Modules
 {
     class Moderation
     {

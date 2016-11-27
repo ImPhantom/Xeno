@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace Xeno
+namespace Xeno.Modules
 {
     class Chat
     {

@@ -1,7 +1,8 @@
 ﻿using Discord;
 using Discord.Commands;
 using System;
-using System.Configuration;
+using Xeno.Modules;
+using Xeno.Utilities;
 
 namespace Xeno
 {

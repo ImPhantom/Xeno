@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net.Http;
 
-namespace Xeno
+namespace Xeno.Modules
 {
     class Settings
     {

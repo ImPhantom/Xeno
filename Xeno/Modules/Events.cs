@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
+using Xeno.Utilities;
 
-namespace Xeno
+namespace Xeno.Modules
 {
     class Events
     {

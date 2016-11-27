@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace Xeno
+namespace Xeno.Utilities
 {
     class Strings
     {
