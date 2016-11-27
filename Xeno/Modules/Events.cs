@@ -38,6 +38,20 @@ namespace Xeno.Modules
                 Console.WriteLine(Strings.infoEvent + $"({e.Server.Name}) {e.User.Name} has been Unbanned from {e.Server.Name}");
             };
 
+            client.ChannelCreated += async (s, e) =>
+            {
+                var logChannel = e.Server.FindChannels("serverlog").FirstOrDefault();
+                await logChannel.SendMessage($":grey_exclamation: **{e.Channel.Name}** has been created.");
+                Console.WriteLine(Strings.infoEvent + $"({e.Server.Name}) {e.Channel.Name} has been created.");
+            };
+
+            client.ChannelDestroyed += async (s, e) =>
+            {
+                var logChannel = e.Server.FindChannels("serverlog").FirstOrDefault();
+                await logChannel.SendMessage($":grey_exclamation: **{e.Channel.Name}** has been deleted.");
+                Console.WriteLine(Strings.infoEvent + $"({e.Server.Name}) {e.Channel.Name} has been deleted.");
+            };
+
             client.MessageUpdated += async (s, e) =>
             {
                 var before = e.Before.Text;

@@ -38,7 +38,7 @@ namespace Xeno.Modules
 
             #region cleanup
             commServ.CreateCommand("cleanup")
-                .Description("Cleans up messages in chat (~cleanup <int>)")
+                .Description("Cleans up messages in chat (cleanup <int>)")
                 .Parameter("amt", ParameterType.Required)
                 .Do(async (e) =>
                 {
@@ -55,6 +55,44 @@ namespace Xeno.Modules
                     else
                     {
                         var permErrorMessage = $"{e.User.Mention} you must have **Administrator** permissions to run that command.";
+                        await e.Channel.SendMessage(permErrorMessage);
+                    }
+                });
+            #endregion
+
+            #region text
+            commServ.CreateCommand("text")
+                .Description("Creates a text channel in the server. (channel <name>)")
+                .Parameter("name", ParameterType.Required)
+                .Do(async (e) =>
+                {
+                    if (e.User.ServerPermissions.ManageChannels == true)
+                    {
+                        await e.Server.CreateChannel(e.GetArg("name"), ChannelType.Text);
+                        await e.Channel.SendMessage($":grey_exclamation: You created the #{e.GetArg("name")} text channel.");
+                    }
+                    else
+                    {
+                        var permErrorMessage = $"{e.User.Mention} you must have **Manage Roles** permissions to run that command.";
+                        await e.Channel.SendMessage(permErrorMessage);
+                    }
+                });
+            #endregion
+
+            #region voice
+            commServ.CreateCommand("voice")
+                .Description("Creates a voice channel in the server. (channel <name>)")
+                .Parameter("name", ParameterType.Required)
+                .Do(async (e) =>
+                {
+                    if (e.User.ServerPermissions.ManageChannels == true)
+                    {
+                        await e.Server.CreateChannel(e.GetArg("name"), ChannelType.Voice);
+                        await e.Channel.SendMessage($":grey_exclamation: You created the #{e.GetArg("name")} voice channel.");
+                    }
+                    else
+                    {
+                        var permErrorMessage = $"{e.User.Mention} you must have **Manage Roles** permissions to run that command.";
                         await e.Channel.SendMessage(permErrorMessage);
                     }
                 });
