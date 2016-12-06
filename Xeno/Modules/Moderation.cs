@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using System;
+using System.Linq;
 using System.Threading;
 using Xeno.Utilities;
 
@@ -97,6 +98,97 @@ namespace Xeno.Modules
                     }
                 });
             #endregion
+
+            #region kick
+            commServ.CreateCommand("kick")
+                .Description("Kicks a user from the guild.")
+                .Parameter("user", ParameterType.Unparsed)
+                .Do(async (e) =>
+                {
+                    if (e.User.ServerPermissions.Administrator == true)
+                    {
+                        ulong id;
+                        User u = null;
+                        string user = e.Args[0];
+                        if (!string.IsNullOrWhiteSpace(user))
+                        {
+                            if (e.Message.MentionedUsers.Count() == 1)
+                                u = e.Message.MentionedUsers.FirstOrDefault();
+                            else if (e.Server.FindUsers(user).Any())
+                                u = e.Server.FindUsers(user).FirstOrDefault();
+                            else if (ulong.TryParse(user, out id))
+                                u = e.Server.GetUser(id);
+                        }
+
+                        if(u == null)
+                        {
+                            await e.Channel.SendMessage("Could not find user.");
+                            return;
+                        }
+
+                        if (e.Server.CurrentUser.ServerPermissions.KickMembers)
+                        {
+                            await e.Channel.SendMessage($"You have kicked {u.Name}.");
+                            await u.Kick();
+                        }
+                        else
+                        {
+                            await e.Channel.SendMessage($"I do not have permission to kick users.");
+                        }
+                    } else
+                    {
+                        var permErrorMessage = $"{e.User.Mention} you must have **Administrator** permissions to run that command.";
+                        await e.Channel.SendMessage(permErrorMessage);
+                    }
+                });
+            #endregion
+
+            #region ban
+            commServ.CreateCommand("ban")
+                .Description("Bans a user from the guild.")
+                .Parameter("user", ParameterType.Unparsed)
+                .Do(async (e) =>
+                {
+                    if (e.User.ServerPermissions.Administrator == true)
+                    {
+                        ulong id;
+                        User u = null;
+                        string user = e.Args[0];
+                        if (!string.IsNullOrWhiteSpace(user))
+                        {
+                            if (e.Message.MentionedUsers.Count() == 1)
+                                u = e.Message.MentionedUsers.FirstOrDefault();
+                            else if (e.Server.FindUsers(user).Any())
+                                u = e.Server.FindUsers(user).FirstOrDefault();
+                            else if (ulong.TryParse(user, out id))
+                                u = e.Server.GetUser(id);
+                        }
+
+                        if (u == null)
+                        {
+                            await e.Channel.SendMessage("Could not find user.");
+                            return;
+                        }
+
+                        if(e.Server.CurrentUser.ServerPermissions.BanMembers)
+                        {
+                            await e.Channel.SendMessage($"You have banned {u.Name}.");
+                            await e.Server.Ban(u);
+                        } else
+                        {
+                            await e.Channel.SendMessage($"I do not have permission to ban users.");
+                        }
+
+                    }
+                    else
+                    {
+                        var permErrorMessage = $"{e.User.Mention} you must have **Administrator** permissions to run that command.";
+                        await e.Channel.SendMessage(permErrorMessage);
+                    }
+                });
+            #endregion
+
+            // Unban ? (temp: unban through GUI bans)
         }
     }
 }

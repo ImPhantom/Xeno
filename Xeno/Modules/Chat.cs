@@ -1,4 +1,6 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
+using System;
 using System.Linq;
 using System.Text;
 
@@ -53,6 +55,46 @@ namespace Xeno.Modules
 **Joined On:** {e.User.JoinedAt}
 **Avatar:** {e.User.AvatarUrl}");
                     await e.Channel.SendMessage(stringBuilder.ToString());
+                });
+            #endregion
+
+            #region uinfo
+            commServ.CreateCommand("uinfo")
+                .Description("Gives info from user.")
+                .Parameter("user", ParameterType.Unparsed)
+                .Do(async (e) =>
+                {
+                    ulong id;
+                    User u = null;
+                    string user = e.Args[0];
+                    if(!string.IsNullOrWhiteSpace(user))
+                    {
+                        if (e.Message.MentionedUsers.Count() == 1)
+                            u = e.Message.MentionedUsers.FirstOrDefault();
+                        else if (e.Server.FindUsers(user).Any())
+                            u = e.Server.FindUsers(user).FirstOrDefault();
+                        else if (ulong.TryParse(user, out id))
+                            u = e.Server.GetUser(id);
+                    }
+                    if(e.Args[0] == String.Empty)
+                    {
+                        var pInfo = new StringBuilder();
+                        pInfo.AppendLine($@"**Name:** {e.User.Name}
+**Nickname:** {e.User.Nickname}
+**ID:** {e.User.Id}
+**Joined On:** {e.User.JoinedAt}
+**Avatar:** {e.User.AvatarUrl}");
+                        await e.Channel.SendMessage(pInfo.ToString());
+                    } else
+                    {
+                        var argInfo = new StringBuilder();
+                        argInfo.AppendLine($@"**Name:** {u.Name}
+**Nickname:** {u.Nickname}
+**ID:** {u.Id}
+**Joined On:** {u.JoinedAt}
+**Avatar:** {u.AvatarUrl}");
+                        await e.Channel.SendMessage(argInfo.ToString());
+                    }
                 });
             #endregion
 

@@ -34,7 +34,7 @@ namespace Xeno.Modules
             client.UserUnbanned += async (s, e) =>
             {
                 var logChannel = e.Server.FindChannels(Strings.logChannel).FirstOrDefault();
-                await logChannel.SendMessage($":x: **{e.User.Name}** has been unbanned.");
+                await logChannel.SendMessage($":white_check_mark: **{e.User.Name}** has been unbanned.");
                 Console.WriteLine(Strings.infoEvent + $"({e.Server.Name}) {e.User.Name} has been Unbanned from {e.Server.Name}");
             };
 
@@ -58,25 +58,18 @@ namespace Xeno.Modules
                 var after = e.After.Text;
                 var dif = "**Before:** " + before + "\n **After:** " + after;
                 var logChannel = e.Server.FindChannels(Strings.logChannel).FirstOrDefault();
-                if (before.Length > 75)
+                if(!e.User.IsBot)
                 {
-                    await logChannel.SendMessage($":grey_exclamation: **{ e.User.Name} **edited their message. (*length*)");
-                }
-                else
-                {
-                    await logChannel.SendMessage($":grey_exclamation: **{e.User.Name}** edited their message: \n " + dif);
+                    if (before.Length > 85)
+                    {
+                        await logChannel.SendMessage($":grey_exclamation: **{ e.User.Name} **edited their message. (*length*)");
+                    }
+                    else
+                    {
+                        await logChannel.SendMessage($":grey_exclamation: **{e.User.Name}** edited their message: \n " + dif);
+                    }
                 }
             };
-
-            /*client.UserUpdated += async (s, e) => {
-
-                var logChannel = e.Server.FindChannels("xenos").FirstOrDefault();
-                if (e.After.VoiceChannel == null) return;
-
-                if (e.Before.VoiceChannel == e.After.VoiceChannel) return;
-
-                await logChannel.SendMessage($":grey_exclamation: **{e.After.Name}** changed to the '*{e.After.VoiceChannel}*' channel.");
-            };*/
         }
     }
 }
