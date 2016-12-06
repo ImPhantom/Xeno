@@ -11,6 +11,7 @@ namespace Xeno.Utilities
         public static string appUrl = ConfigurationManager.AppSettings["appUrl"];
         public static string serverName = ConfigurationManager.AppSettings["serverName"];
         public static string startStatus = ConfigurationManager.AppSettings["status"];
+        public static string logChannel = ConfigurationManager.AppSettings["logChannel"];
 
         public static char prefixChar = Convert.ToChar(ConfigurationManager.AppSettings["commandPrefix"]);
 
