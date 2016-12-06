@@ -1,5 +1,4 @@
 ﻿using Discord.Commands;
-using System;
 using System.Linq;
 using System.Text;
 
@@ -54,28 +53,6 @@ namespace Xeno.Modules
 **Joined On:** {e.User.JoinedAt}
 **Avatar:** {e.User.AvatarUrl}");
                     await e.Channel.SendMessage(stringBuilder.ToString());
-                });
-            #endregion
-
-            #region bot
-            commServ.CreateCommand("bot")
-                .Description("Sends the bot info to the user.")
-                .Do(async (e) =>
-                {
-                    await e.User.PrivateChannel.SendMessage($@"**Xeno is created and maintained by ImPhantom**
-**Xeno is still in *ALPHA*, So expect issues.**
-**GitHub:** https://github.com/ImPhantom/Xeno
-**Downloads:** http://bot.xenorp.com/");
-                });
-            #endregion
-
-            #region userID
-            commServ.CreateCommand("id")
-                .Description("Gets a users ID")
-                .Do(async (e) =>
-                {
-                    await e.Channel.SendMessage($@"**User ID:** {e.User.Id}
-**Text Channel ID:** {e.Channel.Id}");
                 });
             #endregion
         }

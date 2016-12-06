@@ -57,16 +57,26 @@ namespace Xeno.Modules
                 var before = e.Before.Text;
                 var after = e.After.Text;
                 var dif = "**Before:** " + before + "\n **After:** " + after;
-                var logChannel = e.Server.FindChannels(Strings.logChannel).FirstOrDefault();
+                var logChannel = e.Server.FindChannels("serverlog").FirstOrDefault();
                 if (before.Length > 75)
                 {
-                    await logChannel.SendMessage($":grey_exclamation: **{ e.User.Name}** edited their message. (*length*)");
+                    await logChannel.SendMessage($":grey_exclamation: **{ e.User.Name} **edited their message. (too long)");
                 }
                 else
                 {
                     await logChannel.SendMessage($":grey_exclamation: **{e.User.Name}** edited their message: \n " + dif);
                 }
             };
+
+            /*client.UserUpdated += async (s, e) => {
+
+                var logChannel = e.Server.FindChannels("xenos").FirstOrDefault();
+                if (e.After.VoiceChannel == null) return;
+
+                if (e.Before.VoiceChannel == e.After.VoiceChannel) return;
+
+                await logChannel.SendMessage($":grey_exclamation: **{e.After.Name}** changed to the '*{e.After.VoiceChannel}*' channel.");
+            };*/
         }
     }
 }

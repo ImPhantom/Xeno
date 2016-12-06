@@ -26,7 +26,7 @@
     <SupportUrl>http://bot.xenorp.com/</SupportUrl>
     <ProductName>Xeno</ProductName>
     <PublisherName>ImPhantom</PublisherName>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationRevision>1</ApplicationRevision>
     <ApplicationVersion>1.1.4.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -126,9 +126,7 @@
     <Compile Include="Utilities\Strings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="App.config" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Xeno_TemporaryKey.pfx" />

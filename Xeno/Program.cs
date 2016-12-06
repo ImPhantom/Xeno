@@ -56,7 +56,7 @@ namespace Xeno
                 {
                     x.PrefixChar = Strings.prefixChar;
                     x.AllowMentionPrefix = false;
-                    x.HelpMode = HelpMode.Private;
+                    x.HelpMode = HelpMode.Public;
                 });
 
 
