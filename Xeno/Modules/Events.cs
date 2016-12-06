@@ -57,10 +57,10 @@ namespace Xeno.Modules
                 var before = e.Before.Text;
                 var after = e.After.Text;
                 var dif = "**Before:** " + before + "\n **After:** " + after;
-                var logChannel = e.Server.FindChannels("serverlog").FirstOrDefault();
+                var logChannel = e.Server.FindChannels(Strings.logChannel).FirstOrDefault();
                 if (before.Length > 75)
                 {
-                    await logChannel.SendMessage($":grey_exclamation: **{ e.User.Name} **edited their message. (too long)");
+                    await logChannel.SendMessage($":grey_exclamation: **{ e.User.Name} **edited their message. (*length*)");
                 }
                 else
                 {
