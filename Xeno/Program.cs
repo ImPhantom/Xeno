@@ -14,7 +14,6 @@ namespace Xeno
         }
 
         public static DiscordClient client;
-        public static bool debug = false;
 
         private string header = @"          
         -----------------------------------------------------------------------------------------------------   
@@ -42,14 +41,7 @@ namespace Xeno
                 {
                     x.AppName = Strings.appName;
                     x.AppUrl = Strings.appUrl;
-                    if (debug == false)
-                    {
-                        x.LogLevel = LogSeverity.Info;
-                    }
-                    else
-                    {
-                        x.LogLevel = LogSeverity.Debug;
-                    }
+                    x.LogLevel = LogSeverity.Info;
                     x.LogHandler = Log;
                 });
 

@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Commands;
 using System;
-using System.Linq;
 using System.Threading;
 using Xeno.Utilities;
 
@@ -40,6 +39,7 @@ namespace Xeno.Modules
             #region cleanup
             commServ.CreateCommand("cleanup")
                 .Description("Cleans up messages in chat (cleanup <int>)")
+                .Alias("purge")
                 .Parameter("amt", ParameterType.Required)
                 .Do(async (e) =>
                 {
@@ -68,6 +68,7 @@ namespace Xeno.Modules
             #region text
             commServ.CreateCommand("text")
                 .Description("Creates a text channel in the server. (channel <name>)")
+                .Alias("maketext")
                 .Parameter("name", ParameterType.Required)
                 .Do(async (e) =>
                 {
@@ -87,6 +88,7 @@ namespace Xeno.Modules
             #region voice
             commServ.CreateCommand("voice")
                 .Description("Creates a voice channel in the server. (channel <name>)")
+                .Alias("makevoice")
                 .Parameter("name", ParameterType.Required)
                 .Do(async (e) =>
                 {

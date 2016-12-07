@@ -1,5 +1,4 @@
-﻿using Discord;
-using Discord.Commands;
+﻿using Discord.Commands;
 using System;
 using System.Linq;
 using System.Text;
@@ -47,6 +46,7 @@ namespace Xeno.Modules
             #region uinfo
             commServ.CreateCommand("uinfo")
                 .Description("Provides the sender with either their info or if specified another users info.")
+                .Alias("userinfo", "ui")
                 .Parameter("user", ParameterType.Unparsed)
                 .Do(async (e) =>
                 {
