@@ -26,20 +26,10 @@ namespace Xeno.Modules
 
             #region info
             commServ.CreateCommand("info")
-                .Description("Gives info from server.")
+                .Description("Provides the sender with the servers info.")
                 .Do(async (e) =>
                 {
-                    var stringBuilder = new StringBuilder();
-                    stringBuilder.AppendLine($@"**Name:** {e.Server.Name}
-**Owner:** {e.Server.Owner}
-**ID:** {e.Server.Id}
-**Region:** {e.Server.Region.Hostname}
-**Total Users:** {e.Server.UserCount}
-**Roles:** {e.Server.RoleCount}
-**Text Channels:** {e.Server.TextChannels.Count()} **Voice Channels:** {e.Server.VoiceChannels.Count()}
-**AFK Channel:** {e.Server.AFKChannel}
-**Icon:** {e.Server.IconUrl}");
-                    await e.Channel.SendMessage(stringBuilder.ToString());
+                    await e.Channel.SendMessage(Svr.getServerInfo(e));
                 });
             #endregion
 
