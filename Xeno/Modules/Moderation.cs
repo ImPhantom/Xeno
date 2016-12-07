@@ -20,7 +20,7 @@ namespace Xeno.Modules
                 .Description("Returns ping in milliseconds")
                 .Do(async (e) =>
                 {
-                    await e.Channel.SendMessage("Calculating Ping...");
+                    await e.Channel.SendMessage(":hourglass: Calculating Ping...");
                     Thread.Sleep(1000);
 
                     Message[] msgToDelete;
@@ -28,7 +28,7 @@ namespace Xeno.Modules
                     await e.Channel.DeleteMessages(msgToDelete);
                     msgToDelete = null;
 
-                    await e.Channel.SendMessage("Pong!");
+                    await e.Channel.SendMessage(":grey_exclamation: Pong!");
                     Thread.Sleep(5000);
                     Message[] msgToDelete1;
                     msgToDelete1 = await e.Channel.DownloadMessages(1);
@@ -59,6 +59,10 @@ namespace Xeno.Modules
                         await e.Channel.SendMessage(permErrorMessage);
                     }
                 });
+            #endregion
+
+            #region botpurge
+            //Do Purge
             #endregion
 
             #region text

@@ -43,21 +43,6 @@ namespace Xeno.Modules
                 });
             #endregion
 
-            #region userinfo
-            commServ.CreateCommand("userinfo")
-                .Description("Gives info from user.")
-                .Do(async (e) =>
-                {
-                    var stringBuilder = new StringBuilder();
-                    stringBuilder.AppendLine($@"**Name:** {e.User.Name}
-**Nickname:** {e.User.Nickname}
-**ID:** {e.User.Id}
-**Joined On:** {e.User.JoinedAt}
-**Avatar:** {e.User.AvatarUrl}");
-                    await e.Channel.SendMessage(stringBuilder.ToString());
-                });
-            #endregion
-
             #region uinfo
             commServ.CreateCommand("uinfo")
                 .Description("Gives info from user.")

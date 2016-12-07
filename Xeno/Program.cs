@@ -16,7 +16,8 @@ namespace Xeno
         public static DiscordClient client;
         public static bool debug = false;
 
-        private string header = @"             
+        private string header = @"          
+        -----------------------------------------------------------------------------------------------------   
                                             __   __                
                                             \ \ / /                
                                              \ V / ___ _ __   ___  
@@ -31,7 +32,7 @@ namespace Xeno
             Console.WriteLine(header);
             Console.Title = Strings.appName;
 
-            if (Strings.botToken == "bot token")
+            if (String.IsNullOrEmpty(Strings.botToken))
             {
                 Console.WriteLine(Strings.tokenError);
                 Console.ReadLine();
