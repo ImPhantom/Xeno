@@ -111,20 +111,7 @@ namespace Xeno.Modules
                 {
                     if (e.User.ServerPermissions.Administrator == true)
                     {
-                        ulong id;
-                        User u = null;
-                        string user = e.Args[0];
-                        if (!string.IsNullOrWhiteSpace(user))
-                        {
-                            if (e.Message.MentionedUsers.Count() == 1)
-                                u = e.Message.MentionedUsers.FirstOrDefault();
-                            else if (e.Server.FindUsers(user).Any())
-                                u = e.Server.FindUsers(user).FirstOrDefault();
-                            else if (ulong.TryParse(user, out id))
-                                u = e.Server.GetUser(id);
-                        }
-
-                        if(u == null)
+                        if(Usr.getUser(e) == null)
                         {
                             await e.Channel.SendMessage("Could not find user.");
                             return;
@@ -132,8 +119,8 @@ namespace Xeno.Modules
 
                         if (e.Server.CurrentUser.ServerPermissions.KickMembers)
                         {
-                            await e.Channel.SendMessage($"You have kicked {u.Name}.");
-                            await u.Kick();
+                            await e.Channel.SendMessage($"You have kicked {Usr.getUser(e).Name}.");
+                            await Usr.getUser(e).Kick();
                         }
                         else
                         {
@@ -155,20 +142,7 @@ namespace Xeno.Modules
                 {
                     if (e.User.ServerPermissions.Administrator == true)
                     {
-                        ulong id;
-                        User u = null;
-                        string user = e.Args[0];
-                        if (!string.IsNullOrWhiteSpace(user))
-                        {
-                            if (e.Message.MentionedUsers.Count() == 1)
-                                u = e.Message.MentionedUsers.FirstOrDefault();
-                            else if (e.Server.FindUsers(user).Any())
-                                u = e.Server.FindUsers(user).FirstOrDefault();
-                            else if (ulong.TryParse(user, out id))
-                                u = e.Server.GetUser(id);
-                        }
-
-                        if (u == null)
+                        if (Usr.getUser(e) == null)
                         {
                             await e.Channel.SendMessage("Could not find user.");
                             return;
@@ -176,8 +150,8 @@ namespace Xeno.Modules
 
                         if(e.Server.CurrentUser.ServerPermissions.BanMembers)
                         {
-                            await e.Channel.SendMessage($"You have banned {u.Name}.");
-                            await e.Server.Ban(u);
+                            await e.Channel.SendMessage($"You have banned {Usr.getUser(e).Name}.");
+                            await e.Server.Ban(Usr.getUser(e));
                         } else
                         {
                             await e.Channel.SendMessage($"I do not have permission to ban users.");

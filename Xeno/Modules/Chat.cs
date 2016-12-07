@@ -3,6 +3,7 @@ using Discord.Commands;
 using System;
 using System.Linq;
 using System.Text;
+using Xeno.Utilities;
 
 namespace Xeno.Modules
 {
@@ -15,8 +16,8 @@ namespace Xeno.Modules
 
             #region butthurt
             commServ.CreateCommand("butthurt")
-                .Description("Sends user a butthurt report.")
-                .Parameter("user", ParameterType.Optional)
+                .Description("Sends specified user a butthurt report.")
+                .Parameter("user", ParameterType.Unparsed)
                 .Do(async (e) =>
                 {
                     await e.Channel.SendMessage($"http://i.imgur.com/jhiVEpv.png");
@@ -45,40 +46,16 @@ namespace Xeno.Modules
 
             #region uinfo
             commServ.CreateCommand("uinfo")
-                .Description("Gives info from user.")
+                .Description("Provides the sender with either their info or if specified another users info.")
                 .Parameter("user", ParameterType.Unparsed)
                 .Do(async (e) =>
                 {
-                    ulong id;
-                    User u = null;
-                    string user = e.Args[0];
-                    if(!string.IsNullOrWhiteSpace(user))
-                    {
-                        if (e.Message.MentionedUsers.Count() == 1)
-                            u = e.Message.MentionedUsers.FirstOrDefault();
-                        else if (e.Server.FindUsers(user).Any())
-                            u = e.Server.FindUsers(user).FirstOrDefault();
-                        else if (ulong.TryParse(user, out id))
-                            u = e.Server.GetUser(id);
-                    }
                     if(e.Args[0] == String.Empty)
                     {
-                        var pInfo = new StringBuilder();
-                        pInfo.AppendLine($@"**Name:** {e.User.Name}
-**Nickname:** {e.User.Nickname}
-**ID:** {e.User.Id}
-**Joined On:** {e.User.JoinedAt}
-**Avatar:** {e.User.AvatarUrl}");
-                        await e.Channel.SendMessage(pInfo.ToString());
+                        await e.Channel.SendMessage(Usr.getUserInfo(Usr.getUser(e), e, true));
                     } else
                     {
-                        var argInfo = new StringBuilder();
-                        argInfo.AppendLine($@"**Name:** {u.Name}
-**Nickname:** {u.Nickname}
-**ID:** {u.Id}
-**Joined On:** {u.JoinedAt}
-**Avatar:** {u.AvatarUrl}");
-                        await e.Channel.SendMessage(argInfo.ToString());
+                        await e.Channel.SendMessage(Usr.getUserInfo(Usr.getUser(e), e, false));
                     }
                 });
             #endregion
@@ -95,15 +72,6 @@ namespace Xeno.Modules
                 });
             #endregion
 
-            #region userID
-            commServ.CreateCommand("id")
-                .Description("Gets a users ID")
-                .Do(async (e) =>
-                {
-                    await e.Channel.SendMessage($@"**User ID:** {e.User.Id}
-**Text Channel ID:** {e.Channel.Id}");
-                });
-            #endregion
         }
     }
 }
