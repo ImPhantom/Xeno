@@ -1,7 +1,5 @@
 ﻿using Discord.Commands;
 using System;
-using System.Linq;
-using System.Text;
 using Xeno.Utilities;
 
 namespace Xeno.Modules

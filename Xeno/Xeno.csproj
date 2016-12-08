@@ -26,7 +26,7 @@
     <SupportUrl>http://bot.xenorp.com/</SupportUrl>
     <ProductName>Xeno</ProductName>
     <PublisherName>ImPhantom</PublisherName>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>5</ApplicationRevision>
     <ApplicationVersion>1.1.5.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -124,6 +124,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Modules\Settings.cs" />
     <Compile Include="Utilities\Strings.cs" />
+    <Compile Include="Utilities\Svr.cs" />
     <Compile Include="Utilities\Usr.cs" />
   </ItemGroup>
   <ItemGroup>
