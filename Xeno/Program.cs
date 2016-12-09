@@ -41,6 +41,7 @@ namespace Xeno
                 {
                     x.AppName = Strings.appName;
                     x.AppUrl = Strings.appUrl;
+                    x.LogLevel = LogSeverity.Debug; //debug for testing
                     x.LogHandler = Log;
                 });
 

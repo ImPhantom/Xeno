@@ -49,21 +49,21 @@ namespace Xeno.Modules
             {
                 var before = Strings.replaceLinks(e.Before.RawText, Strings.getLinks(e.Before.RawText));
                 var after = Strings.replaceLinks(e.After.RawText, Strings.getLinks(e.After.RawText));
-                var dif = "**Before:** " + before + "\n **After:** " + after;
+                var linkb = "**Before:** " + before + "\n **After:** " + e.After.Text;
+                var linka = "**Before:** " + e.Before.Text + "\n **After:** " + after;
 
-                // Bug: Messages without links in them are not posted. (too tired to fix)
+                // Ignore messy code here.  ^^
 
-                if (!e.User.IsBot)
+                if(!e.User.IsBot)
                 {
-                    if (e.Before.Text.Length > 85)
+                    if (e.Before.Text.Contains("http"))
                     {
-                        await Svr.getLogChannel(e).SendMessage($":grey_exclamation: **{ e.User.Name} **edited their message. (*length*)");
+                        await Svr.getLogChannel(e).SendMessage($":grey_exclamation: **{e.User.Name}** edited their message: \n " + linkb);
                     }
-                    else
+                    else if (e.After.Text.Contains("http"))
                     {
-                        await Svr.getLogChannel(e).SendMessage($":grey_exclamation: **{e.User.Name}** edited their message: \n " + dif);
+                        await Svr.getLogChannel(e).SendMessage($":grey_exclamation: **{e.User.Name}** edited their message: \n " + linka);
                     }
-                    
                 }
             };
         }
