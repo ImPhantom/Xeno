@@ -51,6 +51,7 @@ namespace Xeno.Modules
                 var after = Strings.replaceLinks(e.After.RawText, Strings.getLinks(e.After.RawText));
                 var linkb = "**Before:** " + before + "\n **After:** " + e.After.Text;
                 var linka = "**Before:** " + e.Before.Text + "\n **After:** " + after;
+                var dif = "**Before:** " + e.Before.Text + "\n **After:** " + e.After.Text;
 
                 // Ignore messy code here.  ^^
 
@@ -63,6 +64,10 @@ namespace Xeno.Modules
                     else if (e.After.Text.Contains("http"))
                     {
                         await Svr.getLogChannel(e).SendMessage($":grey_exclamation: **{e.User.Name}** edited their message: \n " + linka);
+                    }
+                    else
+                    {
+                        await Svr.getLogChannel(e).SendMessage($":grey_exclamation: **{e.User.Name}** edited their message: \n " + dif);
                     }
                 }
             };

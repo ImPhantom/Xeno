@@ -22,6 +22,8 @@ namespace Xeno.Utilities
             return svrInfo.ToString();
         }
 
+        // Log Channel Functions
+
         public static Channel getLogChannel(ChannelEventArgs ch)
         {
             var log = ch.Server.FindChannels(Strings.logChannel, ChannelType.Text).FirstOrDefault();

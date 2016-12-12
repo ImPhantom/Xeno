@@ -33,6 +33,8 @@ namespace Xeno.Utilities
 **Nickname:** {u.Nickname}
 **ID:** {u.Id}
 **Joined On:** {u.JoinedAt}
+**Current Game:** {u.CurrentGame.Value.Name}
+**Role:** {u.Roles.FirstOrDefault()}
 **Avatar:** {u.AvatarUrl}");
                 return info.ToString();
             }
@@ -43,6 +45,8 @@ namespace Xeno.Utilities
 **Nickname:** {e.User.Nickname}
 **ID:** {e.User.Id}
 **Joined On:** {e.User.JoinedAt}
+**Current Game:** {e.User.CurrentGame.Value.Name}
+**Role:** {e.User.Roles.FirstOrDefault()}
 **Avatar:** {e.User.AvatarUrl}");
                 return pInfo.ToString();
             }
