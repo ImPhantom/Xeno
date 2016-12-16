@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Discord;
+using System;
 using Xeno.Utilities;
 
 namespace Xeno.Modules
@@ -47,25 +48,16 @@ namespace Xeno.Modules
 
             client.MessageUpdated += async (s, e) =>
             {
-                var before = Strings.replaceLinks(e.Before.RawText, Strings.getLinks(e.Before.RawText));
-                var after = Strings.replaceLinks(e.After.RawText, Strings.getLinks(e.After.RawText));
-                var linkb = "**Before:** " + before + "\n **After:** " + e.After.Text;
-                var linka = "**Before:** " + e.Before.Text + "\n **After:** " + after;
+                //var before = Strings.replaceLinks(e.Before.RawText, Strings.getLinks(e.Before.RawText));
+                //var after = Strings.replaceLinks(e.After.RawText, Strings.getLinks(e.After.RawText));
                 var dif = "**Before:** " + e.Before.Text + "\n **After:** " + e.After.Text;
-
-                // Ignore messy code here.  ^^
 
                 if(!e.User.IsBot)
                 {
-                    if (e.Before.Text.Contains("http"))
+                    if(e.Before.Text.Contains("http") && e.After.Text.Contains("http")) //Temporary Fix for Issue (#1)
                     {
-                        await Svr.getLogChannel(e).SendMessage($":grey_exclamation: **{e.User.Name}** edited their message: \n " + linkb);
-                    }
-                    else if (e.After.Text.Contains("http"))
-                    {
-                        await Svr.getLogChannel(e).SendMessage($":grey_exclamation: **{e.User.Name}** edited their message: \n " + linka);
-                    }
-                    else
+                        return;
+                    } else
                     {
                         await Svr.getLogChannel(e).SendMessage($":grey_exclamation: **{e.User.Name}** edited their message: \n " + dif);
                     }
