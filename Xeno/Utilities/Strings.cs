@@ -8,10 +8,7 @@ namespace Xeno.Utilities
     public class Strings
     {
         // Config Strings
-        public static string botToken = Properties.Settings.Default.botToken;
-        public static string serverName = Properties.Settings.Default.serverName;
-        public static string logChannel = Properties.Settings.Default.logChannel;
-        public static char prefixChar = Properties.Settings.Default.commandPrefix;
+        public static string logChannel = Configuration.Load().logChannel;
 
         // Static Strings
         public static string infoPrefix = "[Info] [Console] ";

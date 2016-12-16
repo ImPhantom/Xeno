@@ -1,7 +1,10 @@
 ﻿using Discord;
 using Discord.Commands;
+using Discord.Commands.Permissions.Levels;
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using Xeno.Modules;
 using Xeno.Utilities;
 
@@ -29,68 +32,94 @@ namespace Xeno
 
         public void Start()
         {
-            String command;
             Console.WriteLine(header);
             Console.Title = "Xeno Discord Bot";
 
-            if (String.IsNullOrEmpty(Strings.botToken))
+            ConfigCheck();
+
+            client = new DiscordClient(x =>
             {
-                Console.WriteLine(Strings.tokenError);
-                command = Console.ReadLine();
-                switch (command)
-                {
-                    case "config":
-                        Console.WriteLine("Opened Config. (edit: Xeno.exe.config)");
-                        Process.Start($@"{AppDomain.CurrentDomain.BaseDirectory}");
-                        break;
-                }
-            } else
+                x.AppName = "Xeno";
+                x.AppUrl = "http://bot.xenorp.com/";
+                x.LogLevel = LogSeverity.Info;
+                x.LogHandler = Log;
+            });
+
+            client.UsingCommands(x =>
             {
-                client = new DiscordClient(x =>
+                x.PrefixChar = Configuration.Load().cmdPrefix;
+                x.AllowMentionPrefix = false;
+                x.HelpMode = HelpMode.Private;
+            })
+            .UsingPermissionLevels((u, c) => (int)GetPermission(u, c));
+
+
+            Events.initEvents(); // Event Module
+            Settings.initSettings(); // Settings Module
+            Moderation.initModeration(); // Moderation Module
+            Chat.initChat(); // Chat Module
+
+            Console.WriteLine(Strings.infoPrefix + "Connecting...");
+            client.ExecuteAndWait(async () =>
+            {
+                while (true)
                 {
-                    x.AppName = "Xeno";
-                    x.AppUrl = "http://bot.xenorp.com/";
-                    x.LogLevel = LogSeverity.Info;
-                    x.LogHandler = Log;
-                });
-
-                client.UsingCommands(x =>
-                {
-                    x.PrefixChar = Strings.prefixChar;
-                    x.AllowMentionPrefix = false;
-                    x.HelpMode = HelpMode.Private;
-                });
-
-
-                Events.initEvents(); // Events
-                Console.WriteLine(Strings.infoPrefix + "Events module initialized.");
-
-                Settings.initSettings(); // Settings
-                Console.WriteLine(Strings.infoPrefix + "Settings module initialized.");
-                Moderation.initModeration(); // Moderation
-                Console.WriteLine(Strings.infoPrefix + "Moderation module initialized.");
-                Chat.initChat(); // Chat
-                Console.WriteLine(Strings.infoPrefix + "Chat module initialized.");
-
-                Console.WriteLine(Strings.infoPrefix + "Connecting...");
-                client.ExecuteAndWait(async () =>
-                {
-                    await client.Connect(Strings.botToken, TokenType.Bot);
-                    command = Console.ReadLine();
-                    switch (command)
+                    try
                     {
-                        case "config":
-                            Console.WriteLine("Opened Config.");
-                            Process.Start($@"{AppDomain.CurrentDomain.BaseDirectory}");
-                            break;
+                        await client.Connect(Configuration.Load().botToken, TokenType.Bot);
+                        break;
                     }
-                });
-            }
+                    catch (Exception e)
+                    {
+                        client.Log.Error("Connection Attempt Failed.", e);
+
+                    }
+                }
+            });
         }
 
         public void Log(object sender, LogMessageEventArgs e)
         {
             Console.WriteLine($"[{e.Severity}] [{e.Source}] {e.Message}");
+        }
+
+        private void ConfigCheck()
+        {
+            if (!Directory.Exists("cfg"))
+                Directory.CreateDirectory("cfg");
+
+            string location = "cfg/config.json";
+
+            if(!File.Exists(location))
+            {
+                var config = new Configuration();
+                Console.WriteLine("The config file has been made at: 'cfg\\config.json', \n Please enter your information and restart the bot.");
+                Console.Write("Token: ");
+
+                config.botToken = Console.ReadLine();
+                config.Save();
+            }
+            Console.WriteLine("Config Loaded!");
+        }
+
+        private PermLevel GetPermission(User user, Channel channel)
+        {
+            if (user.IsBot)
+                return PermLevel.Blocked;
+
+            if (Configuration.Load().botOwners.Contains(user.Id))
+                return PermLevel.BotOwner;
+
+            if(!channel.IsPrivate)
+            {
+                if (user == channel.Server.Owner)
+                    return PermLevel.ServerOwner;
+                if (user.ServerPermissions.Administrator)
+                    return PermLevel.ServerAdmin;
+                if (user.GetPermissions(channel).ManageChannel)
+                    return PermLevel.ChannelAdmin;
+            }
+            return PermLevel.User;
         }
     }
 }
