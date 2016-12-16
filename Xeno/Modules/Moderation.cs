@@ -45,12 +45,13 @@ namespace Xeno.Modules
                 {
                     if (e.User.ServerPermissions.Administrator == true)
                     {
+                        int amt;
                         Message[] messagesToDelete;
-                        var amountToDelete = Convert.ToInt32($"{e.GetArg("amt")}");
-                        messagesToDelete = await e.Channel.DownloadMessages(amountToDelete + 1);
+                        var amountToDelete = int.TryParse(e.GetArg("amt"), out amt);
+                        messagesToDelete = await e.Channel.DownloadMessages(amt + 1);
                         await e.Channel.DeleteMessages(messagesToDelete);
                         messagesToDelete = null;
-                        var cslAlert = "[" + Strings.appName + $"] {e.User.Name} has cleaned up chat.";
+                        var cslAlert = $"[Xeno] {e.User.Name} has cleaned up chat.";
                         Console.WriteLine(cslAlert);
                     }
                     else
@@ -62,7 +63,7 @@ namespace Xeno.Modules
             #endregion
 
             #region botpurge
-            //Do Purge
+            // purging a specific users messages blows.
             #endregion
 
             #region text
