@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using System;
+using System.Diagnostics;
 using Xeno.Modules;
 using Xeno.Utilities;
 
@@ -28,20 +29,28 @@ namespace Xeno
 
         public void Start()
         {
+            String command;
             Console.WriteLine(header);
-            Console.Title = Strings.appName;
+            Console.Title = "Xeno Discord Bot";
 
             if (String.IsNullOrEmpty(Strings.botToken))
             {
                 Console.WriteLine(Strings.tokenError);
-                Console.ReadLine();
+                command = Console.ReadLine();
+                switch (command)
+                {
+                    case "config":
+                        Console.WriteLine("Opened Config. (edit: Xeno.exe.config)");
+                        Process.Start($@"{AppDomain.CurrentDomain.BaseDirectory}");
+                        break;
+                }
             } else
             {
                 client = new DiscordClient(x =>
                 {
-                    x.AppName = Strings.appName;
-                    x.AppUrl = Strings.appUrl;
-                    x.LogLevel = LogSeverity.Debug; //debug for testing
+                    x.AppName = "Xeno";
+                    x.AppUrl = "http://bot.xenorp.com/";
+                    x.LogLevel = LogSeverity.Info;
                     x.LogHandler = Log;
                 });
 
@@ -67,7 +76,14 @@ namespace Xeno
                 client.ExecuteAndWait(async () =>
                 {
                     await client.Connect(Strings.botToken, TokenType.Bot);
-                    client.SetGame(Strings.startStatus);
+                    command = Console.ReadLine();
+                    switch (command)
+                    {
+                        case "config":
+                            Console.WriteLine("Opened Config.");
+                            Process.Start($@"{AppDomain.CurrentDomain.BaseDirectory}");
+                            break;
+                    }
                 });
             }
         }
