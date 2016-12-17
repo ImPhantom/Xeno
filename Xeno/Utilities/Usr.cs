@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Xeno.Utilities
 {
-    class Usr
+    public class Usr
     {
         public static User getUser(CommandEventArgs e)
         {
@@ -24,9 +24,9 @@ namespace Xeno.Utilities
             return u;
         }
 
-        public static string getUserInfo(User u, CommandEventArgs e, bool bl)
+        public static string getUserInfo(User u, CommandEventArgs e, bool self)
         {
-            if (bl == false)
+            if (self == false)
             {
                 var info = new StringBuilder();
                 info.AppendLine($@"**Name:** {u.Name}

@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.Commands.Permissions.Levels;
+using Discord.Modules;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -49,17 +50,18 @@ namespace Xeno
             {
                 x.PrefixChar = Configuration.Load().cmdPrefix;
                 x.AllowMentionPrefix = false;
-                x.HelpMode = HelpMode.Private;
+                x.HelpMode = HelpMode.Public;
             })
-            .UsingPermissionLevels((u, c) => (int)GetPermission(u, c));
+            .UsingPermissionLevels((u, c) => (int)GetPermission(u, c))
+            .UsingModules();
 
 
             Events.initEvents(); // Event Module
-            Settings.initSettings(); // Settings Module
-            Moderation.initModeration(); // Moderation Module
-            Chat.initChat(); // Chat Module
 
-            Console.WriteLine(Strings.infoPrefix + "Connecting...");
+            client.AddModule<Settings>("Settings", ModuleFilter.None);
+            client.AddModule<Chat>("Chat", ModuleFilter.None);
+            client.AddModule<Moderation>("Moderation", ModuleFilter.None);
+
             client.ExecuteAndWait(async () =>
             {
                 while (true)
@@ -99,13 +101,13 @@ namespace Xeno
                 config.botToken = Console.ReadLine();
                 config.Save();
             }
-            Console.WriteLine("Config Loaded!");
+            Console.WriteLine(Strings.infoEvent + "Config Loaded!");
         }
 
         private PermLevel GetPermission(User user, Channel channel)
         {
             if (user.IsBot)
-                return PermLevel.Blocked;
+                return PermLevel.User;
 
             if (Configuration.Load().botOwners.Contains(user.Id))
                 return PermLevel.BotOwner;

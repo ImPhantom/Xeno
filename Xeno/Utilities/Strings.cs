@@ -20,13 +20,13 @@ namespace Xeno.Utilities
 
 
         // Help Strings
-        public static string setHelp = @"**status** <string>    
+        public static string setHelp = @"**set status** <string>    
     *Sets the bots Game/Status.*
-**avatar** <url>       
+**set avatar** <url>       
     *Sets the bots Avatar.*
-**nick** <string>      
+**set nick** <string>      
     *Sets the bots Nickname.*
-**username** <string>  
+**set username** <string>  
     *Sets the bots Username. (limited)*";
         
 
