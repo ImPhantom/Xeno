@@ -47,13 +47,15 @@ namespace Xeno.Modules
                     .Parameter("user", ParameterType.Unparsed)
                     .Do(async (e) =>
                     {
-                        if (e.Args[0] == string.Empty)
+                        /*if (e.Args[0] == string.Empty)
                         {
                         }
                         else
                         {
                             await e.Channel.SendMessage(Usr.getUserInfo(Usr.getUser(e), e, false));
-                        }
+                        }*/
+                        if(e.Args[0] != string.Empty)
+                            await e.Channel.SendMessage(Usr.getUserInfo(Usr.getUser(e), e, false));
                     });
                 #endregion
 
